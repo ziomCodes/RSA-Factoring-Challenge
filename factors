@@ -2,16 +2,33 @@
 import sys
 
 def factorize(n):
-    for i in range(2, int(n**0.5) + 1):
+    """
+    Given a natural number n, returns a pair of factors (p, q) such that p*q = n,
+    or None if no such pair exists.
+    """
+    for i in range(2, int(n**0.5)+1):
         if n % i == 0:
-            return i, n // i
+            return i, n//i
     return None
 
-with open(sys.argv[1]) as f:
-    for line in f:
-        n = int(line)
-        factors = factorize(n)
-        while factors is not None:
-            p, q = factors
-            print(f"{n}={p}*{q}")
-            n, factors = p, factorize(q)
+def main():
+    if len(sys.argv) != 2:
+        print("Usage: factors <file>")
+        return
+
+    try:
+        with open(sys.argv[1]) as f:
+            for line in f:
+                n = int(line.strip())
+                factors = factorize(n)
+                if factors is None:
+                    print(f"{n} has no factors.")
+                else:
+                    p, q = factors
+                    print(f"{n}={p}*{q}")
+    except FileNotFoundError:
+        print(f"File {sys.argv[1]} not found.")
+
+if __name__ == "__main__":
+    main()
+
