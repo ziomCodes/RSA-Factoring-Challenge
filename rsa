@@ -1,40 +1,33 @@
 #!/usr/bin/python3
-from sys import argv
-from linecache import getline
+
+# library to get arguments
+import sys
 
 
-def first_prime_factor(n: int) -> int:
-    if n <= 3:
-        return (2)
-    if n % 2 == 0:
-        return (2)
-    if n % 3 == 0:
-        return (3)
-    limit = int(n ** 0.5)
-    if limit % 2 == 0:
-        limit = limit + 1
-    i, j = 5, limit
-    while i <= j:
-        if n % i == 0:
-            return (i)
-        if n % (i + 2) == 0:
-            return (i + 2)
-        if n % j == 0:
-            return (j)
-        if n % (j - 2) == 0:
-            return (j - 2)
-        i += 6
-        j -= 4
-    return (1)
+# fn unpack number factorial
+def fc():
+    """
+    function fc to search file to convert number and format n=p*q
+    """
+    try:
+        revfile = sys.argv[1]
+        with open(revfile) as f:
+            for revnumber in f:
+                revnumber = int(revnumber)
+                if revnumber % 2 == 0:
+                        print("{}={}*{}".format(revnumber, revnumber // 2, 2))
+                        continue
+                i = 3
+                while i < revnumber // 2:
+                    if revnumber % i == 0:
+                        print("{}={}*{}".format(revnumber, revnumber // i, i))
+                        break
+                    i = i + 2
+                if i == (revnumber // 2) + 1:
+                    print("{}={}*{}".format(revnumber, revnumber, 1))
+    except (IndexError):
+        pass
 
 
-if __name__ == "__main__":
-    line = 1
-    while True:
-        line_str = getline(argv[1], line)
-        if (len(line_str) == 0):
-            break
-        num = int(line_str[:-1])
-        factor = first_prime_factor(num)
-        print("{}={}*{}".format(num, num // factor, factor))
-        line += 1
+# autostart
+fc()
